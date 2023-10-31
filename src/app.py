@@ -105,10 +105,18 @@ def append_chat(item, code):
     client.append_chat(item['title'][:20], chat_obj)
 
 def convert_to_code(code):
+    # List of language identifiers
+    languages = ['python', 'jsx', 'yaml', 'bash', 'shell', 'go', 'sql', 'code', 'Dockerfile', 'javascript', 'php', 'json', 'css', 'html']
+
+    # Replace each language identifier
+    for lang in languages:
+        code = re.sub(r'```' + lang, '```', code, flags=re.DOTALL)
+
     # Replace text within triple backticks followed by a newline
-    code = re.sub(r'```\n(.*?)```', r'<code>\1</code>', code, flags=re.DOTALL)
+    code = re.sub(r'```\n(.*?)```', r'<convert_code>\1</convert_code>', code, flags=re.DOTALL)
     # Replace text within triple backticks
-    code = re.sub(r'```(.*?)```', r'<code>\1</code>', code, flags=re.DOTALL)
+    code = re.sub(r'```(.*?)```', r'<convert_code>\1</convert_code>', code, flags=re.DOTALL)
+
     return code
 
 client = get_client()
